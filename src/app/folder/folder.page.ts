@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './folder.page.html',
   styleUrls: ['./folder.page.scss'],
 })
-export class FolderPage implements OnInit {
+export class FolderPage implements OnDestroy, OnInit {
   public folder: string;
 
   constructor(private activatedRoute: ActivatedRoute) { }
@@ -15,4 +15,9 @@ export class FolderPage implements OnInit {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
+  ngOnDestroy() {
+    if (this.folder === 'Trash') {
+      throw new Error('Error from ngOnDestroy when leaving Trash.');
+    }
+  }
 }
